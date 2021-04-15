@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <title>Document</title>
+    <!-- banner start -->
+    <style>
+        .banner *{
+            margin:0;
+            padding:0;
+        }
+        .banner li {
+            list-style:none;
+        }
+        .banner {
+            position:relative;
+            height:500px;
+            background:url(imgs/banners/banner-1.jpg) no-repeat center;
+            background-size:cover;
+        }
+
+        .left-arrow,.right-arrow{
+            position:absolute;
+            font-size:48px;
+            /* color:#49ADAD; */
+            color:rgba(73, 173, 173,.8);
+            top:50%;
+            margin-top:-24px;
+            cursor:pointer;
+        }
+        .left-arrow{
+            left:0;
+        }
+        .right-arrow{
+            right:0;
+        }
+        .banner ul{
+            height:20px;
+            width: 100px;
+            background:rgba(255, 255, 255,.3);
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -50px;
+            border-radius: 10px;
+        }
+        .banner ul li{
+            width: 14px;
+            height:14px;
+            background-color: #fff;
+            float:left;
+            margin:3px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .banner .current{
+            background-color: #49ADAD;
+        }
+    </style>
+    <!-- banner end -->
+</head>
+<body>
+    <!-- banner start -->
+    <div class="banner">
+        <!-- <img src="imgs/banners/banner-1.jpg" alt=""> -->
+        <span id="banner-prev-btn" class="left-arrow">
+            <i class="fas fa-caret-square-left"></i>
+        </span>
+        <span id="banner-next-btn" class="right-arrow">
+            <i class="fas fa-caret-square-right"></i>
+        </span>
+        <ul>
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <!-- banner end -->
+
+
+    <script>
+        var urls = ["banner-1","banner-2","banner-3","banner-4","banner-5"]
+        var dotsObj = document.getElementsByClassName("banner")[0].getElementsByTagName("li")
+        for (var i=0; i<dotsObj.length; i++){
+            dotsObj[i].setAttribute("index",i)
+            dotsObj[i].onclick = function () {
+                document.getElementsByClassName("banner")[0].style.backgroundImage="url(imgs/banners/"+urls[this.getAttribute("index")]+".jpg)"
+                for(var j=0; j<dotsObj.length; j++){
+                    dotsObj[j].removeAttribute("class")
+                }
+                this.className="current"
+            }
+        }
+
+
+        var nextBtn = document.getElementById("banner-next-btn")
+        nextBtn.onclick = function () {
+            var currentNum = document.getElementsByClassName("banner")[0].getElementsByClassName("current")[0].getAttribute("index")
+            currentNum = (Number(currentNum)+1)%5
+            document.getElementsByClassName("banner")[0].style.backgroundImage="url(imgs/banners/"+urls[currentNum]+".jpg)"
+            for(var j=0; j<dotsObj.length; j++){
+                    dotsObj[j].removeAttribute("class")
+            }
+            dotsObj[currentNum].className="current"
+        }
+        
+        var prevBtn = document.getElementById("banner-prev-btn")
+        prevBtn.onclick = function () {
+            var currentNum = document.getElementsByClassName("banner")[0].getElementsByClassName("current")[0].getAttribute("index")
+            currentNum = (Number(currentNum)+4)%5
+            document.getElementsByClassName("banner")[0].style.backgroundImage="url(imgs/banners/"+urls[currentNum]+".jpg)"
+            for(var j=0; j<dotsObj.length; j++){
+                    dotsObj[j].removeAttribute("class")
+            }
+            dotsObj[currentNum].className="current"
+            console.log(currentNum)
+        }
+
+    </script>
+</body>
+</html>
