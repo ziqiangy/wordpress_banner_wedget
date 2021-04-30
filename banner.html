@@ -87,41 +87,55 @@
 
     <script>
         var urls = ["banner-1","banner-2","banner-3","banner-4","banner-5"]
-        var dotsObj = document.getElementsByClassName("banner")[0].getElementsByTagName("li")
-        for (var i=0; i<dotsObj.length; i++){
-            dotsObj[i].setAttribute("index",i)
-            dotsObj[i].onclick = function () {
-                document.getElementsByClassName("banner")[0].style.backgroundImage="url(imgs/banners/"+urls[this.getAttribute("index")]+".jpg)"
+        var bannerObj = document.getElementsByClassName("banner")[0]
+        var dotsObj = bannerObj.getElementsByTagName("li")
+        //call changeBackground function to change to urls[index] picture
+        var currentNum = document.getElementsByClassName("banner")[0].getElementsByClassName("current")[0].getAttribute("index")
+        changeBackground = function(index){
+            document.getElementsByClassName("banner")[0].style.backgroundImage="url(imgs/banners/"+urls[index]+".jpg)"
                 for(var j=0; j<dotsObj.length; j++){
                     dotsObj[j].removeAttribute("class")
                 }
+        }
+
+        bannerObj.onmousedown = function(e1){
+            this.onmouseup = function (e2) {
+                if(e2.pageX>e1.pageX){
+                    currentNum = (Number(currentNum)+4)%5
+                    changeBackground(currentNum)
+                    dotsObj[currentNum].className="current"
+
+                }else{
+                    currentNum = (Number(currentNum)+1)%5
+                    changeBackground(currentNum)
+                    dotsObj[currentNum].className="current"
+                }
+            }
+        }
+
+        for (var i=0; i<dotsObj.length; i++){
+            dotsObj[i].setAttribute("index",i)
+            dotsObj[i].onclick = function () {
+                changeBackground(this.getAttribute("index"))
                 this.className="current"
             }
         }
 
-
         var nextBtn = document.getElementById("banner-next-btn")
         nextBtn.onclick = function () {
-            var currentNum = document.getElementsByClassName("banner")[0].getElementsByClassName("current")[0].getAttribute("index")
             currentNum = (Number(currentNum)+1)%5
-            document.getElementsByClassName("banner")[0].style.backgroundImage="url(imgs/banners/"+urls[currentNum]+".jpg)"
-            for(var j=0; j<dotsObj.length; j++){
-                    dotsObj[j].removeAttribute("class")
-            }
+            changeBackground(currentNum)
             dotsObj[currentNum].className="current"
         }
         
         var prevBtn = document.getElementById("banner-prev-btn")
         prevBtn.onclick = function () {
-            var currentNum = document.getElementsByClassName("banner")[0].getElementsByClassName("current")[0].getAttribute("index")
             currentNum = (Number(currentNum)+4)%5
-            document.getElementsByClassName("banner")[0].style.backgroundImage="url(imgs/banners/"+urls[currentNum]+".jpg)"
-            for(var j=0; j<dotsObj.length; j++){
-                    dotsObj[j].removeAttribute("class")
-            }
+            changeBackground(currentNum)
             dotsObj[currentNum].className="current"
-            console.log(currentNum)
         }
+
+        
 
     </script>
 </body>
